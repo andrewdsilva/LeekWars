@@ -1,4 +1,4 @@
-# LeekWars #
+# LeekWars Builder #
 
 Si vous développez une IA LeekWars en local, ce programme vous permet de fusionner tous les fichiers composants celle ci et de mettre à jour le script sur votre compte LeekWars.
 
