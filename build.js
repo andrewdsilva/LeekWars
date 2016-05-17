@@ -9,7 +9,7 @@ var fs      = require('fs');
 var request = require('request');
 
 /* Param */
-var apiUrl = 'http://leekwars.com/api';
+var apiUrl = 'https://leekwars.com/api';
 var iaName = process.argv[2];
 var token;
 var user;
