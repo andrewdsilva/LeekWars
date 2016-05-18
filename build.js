@@ -7,12 +7,13 @@
 /* Imports */
 var fs      = require('fs');
 var request = require('request');
+var prompt =  require('prompt');
 
 /* Param */
 var apiUrl = 'https://leekwars.com/api';
 var iaName = process.argv[2];
 var token;
-var user;
+var user = {username: '', password: ''};
 
 /* Programme */
 
@@ -30,9 +31,61 @@ function readConfig( file ) {
     }
 };
 
-function connect( configFile ) {
+function getLoginAndPassword( configFile, callback ) {
+
     readConfig( configFile );
 
+    if ( !user.hasOwnProperty('username') && !user.hasOwnProperty('password') ) {
+        var schema = {
+            properties: {
+                login: {
+                    pattern: /^[a-zA-Z\s\-]+$/,
+                    message: 'Login must be only letters, spaces, or dashes',
+                    required: true,
+                    description: 'login: '
+                },
+                password: {
+                    hidden: true,
+                    description: 'password: '
+                }
+            }
+        };
+
+        prompt.message = '>';
+        prompt.delimiter = ' ';
+
+        prompt.start();
+
+        prompt.get(schema, function (err, result) {
+            user.username = result.login;
+            user.password = result.password;
+            callback();
+        });
+    } else if ( !user.hasOwnProperty('password') ) {
+        var schema = {
+            properties: {
+                password: {
+                    hidden: true,
+                    description: 'password: '
+                }
+            }
+        };
+
+        prompt.message = '>';
+        prompt.delimiter = ' ';
+
+        prompt.start();
+
+        prompt.get(schema, function (err, result) {
+            user.password = result.password;
+            callback();
+        });
+    } else {
+        callback();
+    }
+}
+
+function connect() {
     var reqOptions = {
         method  : 'POST',
         url     : apiUrl + '/farmer/login-token',
@@ -175,4 +228,4 @@ function updateIa( id, iaCode ) {
 
 if( process.argv.length < 2 || !iaName ) process.exit();
 
-connect( 'config.json' );
+getLoginAndPassword( 'config.json', connect );

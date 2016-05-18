@@ -8,7 +8,9 @@ Si vous développez une IA LeekWars en local, ce programme vous permet de fusion
 
 <code>npm install</code>
 
-2.  Entrer ses identifiants leekwars dans config/config.json
+2. (facultatif) Entrer ses identifiants leekwars dans config/config.json
+
+Si vous n'entrez pas vos identifiants dans le fichier config.json ou si vous n'entrez que votre login, le reste pour sera demander de façon interactive.
 
 ## Utilisation ##
 
@@ -18,4 +20,4 @@ Si vous développez une IA LeekWars en local, ce programme vous permet de fusion
 
 ## Exemple ##
 
-<code>node build.js SAMPLE</code>
+<code>node build.js "nom du dossier"</code>
