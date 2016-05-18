@@ -4,7 +4,10 @@ Si vous développez une IA LeekWars en local, ce programme vous permet de fusion
 
 ## Initialisation ##
 
-1.  Exécuter init.sh pour installer les modules node
+1.  Installer les dépendances node
+
+<code>npm install</code>
+
 2.  Entrer ses identifiants leekwars dans config/config.json
 
 ## Utilisation ##
