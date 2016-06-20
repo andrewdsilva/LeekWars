@@ -12,7 +12,8 @@ var path    = require('path');
 
 /* Param */
 var apiUrl = 'https://leekwars.com/api';
-var iaName = process.argv[2];
+var iaName = process.argv.length > 3 ? process.argv[3] : process.argv[2];
+var iaFile = process.argv[2];
 var token;
 var user = {username: '', password: ''};
 
@@ -144,15 +145,15 @@ function getAis() {
 }
 
 function getIaCode() {
-    var main = fs.readFileSync(__dirname + '/' + iaName).toString();
-    var filePath = path.dirname(__dirname + '/' + iaName);
+    var main = fs.readFileSync(__dirname + '/' + iaFile).toString();
+    var filePath = path.dirname(__dirname + '/' + iaFile);
     var code = '';
 
     var file = main.split(/\r?\n/);
     var usefullLines = '';
 
     for (var i = 0; i < file.length; i++) {
-        var dependency = file[i].match(/include\(\'([^\"]*)\'\)/);
+        var dependency = file[i].match(/include\([\s]*\'([^\"]*)\'[\s]*\)/);
         if (dependency && dependency.length > 1) {
             code += fs.readFileSync( filePath + '/' + dependency[1] ).toString() + '\n';
         } else {
