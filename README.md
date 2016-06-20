@@ -1,6 +1,6 @@
 # LeekWars Builder #
 
-Si vous développez une IA LeekWars en local, ce programme vous permet de fusionner tous les fichiers composants celle ci et de mettre à jour le script sur votre compte LeekWars.
+Si vous développez une IA LeekWars en local, ce programme vous permet de fusionner tous les fichiers composants celle-ci et de mettre à jour le script sur votre compte LeekWars.
 
 ## Initialisation ##
 
@@ -12,12 +12,11 @@ Si vous développez une IA LeekWars en local, ce programme vous permet de fusion
 
 Si vous n'entrez pas vos identifiants dans le fichier config.json ou si vous n'entrez que votre login, le reste pour sera demander de façon interactive.
 
-## Utilisation ##
+## Pré-requis ##
 
-1.  Placer les fichiers composant votre IA dans un dossier portant le nom souhaité pour l'IA
-2.  Mettre le code qui doit se trouver à la fin dans un fichier contenant le mot "main"
-3.  Exécuter build.js avec node en donnant en paramètre le nom de votre IA
+- Le fichier passé en paramètre doit être le seul qui contient des <code>include</code>
+- Les chemins des <code>include</code> doivent être relatifs
 
 ## Exemple ##
 
-<code>node build.js "nom du dossier"</code>
+<code bash>node build.js /home/user/main.ls</code>
