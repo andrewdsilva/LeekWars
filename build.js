@@ -7,7 +7,8 @@
 /* Imports */
 var fs      = require('fs');
 var request = require('request');
-var prompt =  require('prompt');
+var prompt  = require('prompt');
+var path    = require('path');
 
 /* Param */
 var apiUrl = 'https://leekwars.com/api';
@@ -143,24 +144,23 @@ function getAis() {
 }
 
 function getIaCode() {
-    var fileList = fs.readdirSync( __dirname + '/' + iaName + '/' );
+    var main = fs.readFileSync(__dirname + '/' + iaName).toString();
+    var filePath = path.dirname(__dirname + '/' + iaName);
     var code = '';
 
-    var main = [];
+    var file = main.split(/\r?\n/);
+    var usefullLines = '';
 
-    for( var i = 0; i < fileList.length; i++ ) {
-        var file = fs.readFileSync( __dirname + '/' + iaName + '/' + fileList[i] );
-
-        if( /main/i.test( fileList[i] ) ) {
-            main.push( file.toString() + '\n' );
+    for (var i = 0; i < file.length; i++) {
+        var dependency = file[i].match(/include\(\'([^\"]*)\'\)/);
+        if (dependency && dependency.length > 1) {
+            code += fs.readFileSync( filePath + '/' + dependency[1] ).toString() + '\n';
         } else {
-            code += file.toString() + '\n';
+            usefullLines += file[i] + '\n';
         }
     }
 
-    for( var i = 0; i < main.length; i++ ) {
-        code += main[i];
-    }
+    code += usefullLines;
 
     return code;
 }
