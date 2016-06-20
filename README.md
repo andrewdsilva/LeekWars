@@ -20,4 +20,5 @@ Si vous n'entrez pas vos identifiants dans le fichier config.json ou si vous n'e
 ## Exemple ##
 
 <code bash>node build.js /home/user/main.ls</code>
+
 <code bash>node build.js /home/user/main.ls NOM_IA</code>
