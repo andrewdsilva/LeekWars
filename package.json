@@ -5,9 +5,12 @@
   "main": "build.js",
   "dependencies": {
     "fs": "~0.0.2",
-    "request": "~2.72.0",
+    "path": "~0.12.7",
     "prompt": "~1.0.0",
-    "path": "~0.12.7"
+    "request": "~2.72.0",
+    "sprintf": "^0.1.5",
+    "sprintf-js": "^1.0.3",
+    "yargs": "^4.7.1"
   },
   "devDependencies": {},
   "scripts": {
