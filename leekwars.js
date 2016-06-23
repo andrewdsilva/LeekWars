@@ -21,6 +21,7 @@ var iaName = process.argv.length > 3 ? process.argv[3] : process.argv[2];
 var iaFile = process.argv[2];
 var token;
 var userData;
+var cookieJar = request.jar();
 var user = {username: '', password: ''};
 
 require('yargs')
@@ -52,14 +53,17 @@ require('yargs')
                           if (line > 0 && line < i){
                             gardenStartSoloFight(leekId, oponents[line-1].id, function(data){
                               var fightId = data.fight;
-                              console.log(require('util').inspect(data, { depth: null }));
                               getFight(fightId, function(data) {
-                                if (data.fight["leeks" + data.fight.winner][0].name == argv.name)
+                                if (data.fight.winner == 0)
+                                {
+                                  console.log("It's a draw !");
+                                }
+                                elseif (data.fight["leeks" + data.fight.winner][0].name == argv.name)
                                 {
                                   console.log("You won !");
                                 }
                                 else {
-
+                                  console.log("You lost !");
 
                                 }
                               })
@@ -76,6 +80,43 @@ require('yargs')
                   }
               })
         });
+      });
+    })
+    .command('garden-farmer', 'Look for a solo garden fight for a farmer', {}, function(argv){
+      login(function(data) {
+        getGarden(function(data){
+          var oponents = data.garden.farmer_enemies;
+          var i = 0;
+          console.log("Choose your oponent:");
+          console.log("----------------------------------------");
+          console.log("\t          Name\tTalent");
+          Object.keys(oponents).forEach(function(key) {
+                value = oponents[key]
+                console.log(i + "\t" + sprintf("%15s", value.name) + "\t" + value.talent );
+                i++;
+          });
+          var rl = readline.createInterface(process.stdin, process.stdout);
+          rl.setPrompt('> ');
+          rl.prompt();
+          rl.on('line', function(line) {
+            if (line > 0 && line < i){
+              gardenStartFarmerFight(oponents[line-1].id, function(data){
+                var fightId = data.fight;
+                console.log(require('util').inspect(data, { depth: null }));
+                getFight(fightId, function(data) {
+                  if (data.fight["leeks" + data.fight.winner][0].name == argv.name)
+                  {
+                    console.log("You won !");
+                  }
+                })
+              });
+              //OK, we've finished
+              rl.close();
+            }
+            else {
+                rl.prompt();
+            }});
+          });
       });
     })
     .command('list <type>', 'List items', {}, function (argv) {
@@ -200,6 +241,7 @@ function connect(callback) {
     var reqOptions = {
         method  : 'POST',
         url     : apiUrl + '/farmer/login-token',
+        jar     : cookieJar,
         form    : {
             'login'    : user.username,
             'password' : user.password
@@ -237,7 +279,8 @@ function connect(callback) {
 function getGarden(callback) {
     var reqOptions = {
         method  : 'GET',
-        url     : apiUrl + '/garden/get/' + token
+        url     : apiUrl + '/garden/get/' + token,
+        jar     : cookieJar
     };
 
     request(
@@ -249,11 +292,13 @@ function getGarden(callback) {
     );
 }
 
+
 function gardenStartSoloFight(leekId, targetId, callback)
 {
   var reqOptions = {
       method  : 'POST',
       url     : apiUrl + '/garden/start-solo-fight',
+      jar     : cookieJar,
       form    : {
           'token' : token,
           'leek_id': leekId,
@@ -261,7 +306,27 @@ function gardenStartSoloFight(leekId, targetId, callback)
       }
   };
 
-  console.log(require('util').inspect(reqOptions, { depth: null }));
+
+console.log(require('util').inspect(reqOptions, { depth: null }));
+  request(
+      reqOptions,
+      function( error, response, body ) {
+          var data = JSON.parse( body );
+          callback(data);
+      }
+  );
+};
+function gardenStartFarmerFight(targetId, callback)
+{
+  var reqOptions = {
+      method  : 'POST',
+      url     : apiUrl + '/garden/start-farmer-fight',
+      jar     : cookieJar,
+      form    : {
+          'token' : token,
+          'target_id': targetId
+        }
+      };
 
   request(
       reqOptions,
@@ -270,9 +335,7 @@ function gardenStartSoloFight(leekId, targetId, callback)
           callback(data);
       }
   );
-}
-
-
+};
 ////////////////////////////////////////////////////////////
 // Get fight
 /////////////////////////////////////////////////////////////
@@ -280,7 +343,8 @@ function gardenStartSoloFight(leekId, targetId, callback)
 function getFight(fightId, callback) {
     var reqOptions = {
         method  : 'GET',
-        url     : apiUrl + '/fight/get/' + fightId
+        url     : apiUrl + '/fight/get/' + fightId,
+        jar     : cookieJar
     };
 
     request(
