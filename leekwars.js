@@ -313,8 +313,6 @@ function gardenStartSoloFight(leekId, targetId, callback)
       }
   };
 
-
-console.log(require('util').inspect(reqOptions, { depth: null }));
   request(
       reqOptions,
       function( error, response, body ) {
