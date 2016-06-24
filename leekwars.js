@@ -129,29 +129,10 @@ require('yargs')
     .command('list <type>', 'List items', {}, function (argv) {
       switch (argv.type) {
         case "leeks":
-          login(function(data) {
-            console.log("Leeks for " + data.farmer.login);
-            console.log('----------------------------')
-            console.log("          Name\tLevel\tTalent\tCapital");
-            Object.keys(data.farmer.leeks).forEach(function(key) {
-                  value = data.farmer.leeks[key]
-                  console.log(sprintf("%15s", value.name) + "\t" + value.level + "\t" + value.talent + "\t" + value.capital);
-              })
-          }
-
-        );
+          login(listLeeks);
         break;
         case "ais":
-            login(function(data) {
-                console.log("Ais for " + data.farmer.login);
-                console.log('----------------------------')
-
-                data.farmer.ais.forEach(function(value) {
-                      console.log(value.name);
-                  })
-              }
-
-            );
+            login(listAis);
             break;
         default:
             console.log('Type must be (leeks|ais)')
@@ -168,6 +149,25 @@ require('yargs')
 ////////////////////////////////////////////////////////////////
 // Login code
 ////////////////////////////////////////////////////////////////
+
+function listLeeks(data) {
+  console.log("Leeks for " + data.farmer.login);
+  console.log('----------------------------')
+  console.log("          Name\tLevel\tTalent\tCapital");
+  Object.keys(data.farmer.leeks).forEach(function(key) {
+        value = data.farmer.leeks[key]
+        console.log(sprintf("%15s", value.name) + "\t" + value.level + "\t" + value.talent + "\t" + value.capital);
+    })
+}
+
+function listAis(data) {
+  console.log("Ais for " + data.farmer.login);
+  console.log('----------------------------')
+
+  data.farmer.ais.forEach(function(value) {
+        console.log(value.name);
+    })
+}
 
 function login(callback) {
     getConnectWithLoginAndPassword('config.json', callback);
