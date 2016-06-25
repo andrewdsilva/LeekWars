@@ -54,11 +54,11 @@ require('yargs')
                             gardenStartSoloFight(leekId, oponents[line-1].id, function(data){
                               var fightId = data.fight;
                               getFight(fightId, function(data) {
-                                if (data.fight.winner == 0)
+                                if (data.fight.winner == -1)
                                 {
                                   console.log("It's a draw !");
                                 }
-                                elseif (data.fight["leeks" + data.fight.winner][0].name == argv.name)
+                                else if (data.fight["leeks" + data.fight.winner][0].name == argv.name)
                                 {
                                   console.log("You won !");
                                 }
@@ -86,7 +86,7 @@ require('yargs')
       login(function(data) {
         getGarden(function(data){
           var oponents = data.garden.farmer_enemies;
-          var i = 0;
+          var i = 1;
           console.log("Choose your oponent:");
           console.log("----------------------------------------");
           console.log("\t          Name\tTalent");
@@ -102,11 +102,18 @@ require('yargs')
             if (line > 0 && line < i){
               gardenStartFarmerFight(oponents[line-1].id, function(data){
                 var fightId = data.fight;
-                console.log(require('util').inspect(data, { depth: null }));
                 getFight(fightId, function(data) {
-                  if (data.fight["leeks" + data.fight.winner][0].name == argv.name)
+                  if (data.fight.winner == -1)
+                  {
+                    console.log("It's a draw !");
+                  }
+                  else if (data.fight["leeks" + data.fight.winner][0].name == argv.name)
                   {
                     console.log("You won !");
+                  }
+                  else {
+                    console.log("You lost !");
+
                   }
                 })
               });
@@ -306,8 +313,6 @@ function gardenStartSoloFight(leekId, targetId, callback)
       }
   };
 
-
-console.log(require('util').inspect(reqOptions, { depth: null }));
   request(
       reqOptions,
       function( error, response, body ) {
