@@ -145,8 +145,8 @@ function getAis() {
 }
 
 function getIaCode() {
-    var main = fs.readFileSync(__dirname + '/' + iaFile).toString();
-    var filePath = path.dirname(__dirname + '/' + iaFile);
+    var main = fs.readFileSync(iaFile).toString();
+    var filePath = path.dirname(iaFile);
     var code = '';
 
     var file = main.split(/\r?\n/);
