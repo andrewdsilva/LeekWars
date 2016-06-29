@@ -6,19 +6,7 @@
 @version   1.0
 */
 
-/* Imports */
-var prompt  = require('prompt');
-var path    = require('path');
-var sprintf = require("sprintf-js").sprintf;
-var readline = require('readline');
-
-//Debug
-var util    = require('util');
-
 //Local
-//Todo: remove when not needed
-var services = require('./lib/services');
-
 var commands = require('./lib/commands');
 
 require('yargs')
