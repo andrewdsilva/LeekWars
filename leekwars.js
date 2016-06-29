@@ -21,14 +21,6 @@ var services = require('./lib/services');
 
 var commands = require('./lib/commands');
 
-
-/* Param */
-var iaName = process.argv.length > 3 ? process.argv[3] : process.argv[2];
-var iaFile = process.argv[2];
-var token;
-var userData;
-var user = {username: '', password: ''};
-
 require('yargs')
     .usage('$0 <cmd> [args]')
     .command('garden-solo <name>', 'Look for a solo garden fight for a leek', {}, function(argv){
