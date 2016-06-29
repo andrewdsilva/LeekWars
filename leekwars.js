@@ -28,53 +28,12 @@ var userData;
 var user = {username: '', password: ''};
 
 require('yargs')
-.usage('$0 <cmd> [args]')
-.command('garden-solo <name>', 'Look for a solo garden fight for a leek', {}, function(argv){
-    commands.garden_start_solo_fight(argv);
-})
-.command('garden-farmer', 'Look for a solo garden fight for a farmer', {}, function(argv){
-    services.login(function(data) {
-        services.get_garden(function(data){
-            var oponents = data.garden.farmer_enemies;
-            var i = 1;
-            console.log("Choose your oponent:");
-            console.log("----------------------------------------");
-            console.log("\t          Name\tTalent");
-            Object.keys(oponents).forEach(function(key) {
-                value = oponents[key]
-                console.log(i + "\t" + sprintf("%15s", value.name) + "\t" + value.talent );
-                i++;
-            });
-            var rl = readline.createInterface(process.stdin, process.stdout);
-            rl.setPrompt('> ');
-            rl.prompt();
-            rl.on('line', function(line) {
-                if (line > 0 && line < i){
-                    services.garden_start_farmer_fight(oponents[line-1].id, function(data){
-                        var fightId = data.fight;
-                        services.get_fight(fightId, function(data) {
-                            if (data.fight.winner == -1)
-                            {
-                                console.log("It's a draw !");
-                            }
-                            else if (data.fight["leeks" + data.fight.winner][0].name == argv.name)
-                            {
-                                console.log("You won !");
-                            }
-                            else {
-                                console.log("You lost !");
-
-                            }
-                        })
-                    });
-                    //OK, we've finished
-                    rl.close();
-                }
-                else {
-                    rl.prompt();
-                }});
-            });
-        });
+    .usage('$0 <cmd> [args]')
+    .command('garden-solo <name>', 'Look for a solo garden fight for a leek', {}, function(argv){
+        commands.garden_start_solo_fight(argv);
+    })
+    .command('garden-farmer', 'Look for a solo garden fight for a farmer', {}, function(argv){
+        commands.garden_start_farmer_fight();
     })
     .command('list <type>', 'List items', {}, function (argv) {
         switch (argv.type) {
@@ -94,32 +53,32 @@ require('yargs')
 
 
 
-    /* Programme */
+/* Programme */
 
-    ////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
 
-    function listLeeks(data) {
-        console.log("Leeks for " + data.farmer.login);
-        console.log('----------------------------')
-        console.log("          Name\tLevel\tTalent\tCapital");
-        Object.keys(data.farmer.leeks).forEach(function(key) {
-            value = data.farmer.leeks[key]
-            console.log(sprintf("%15s", value.name) + "\t" + value.level + "\t" + value.talent + "\t" + value.capital);
-        })
-    }
+function listLeeks(data) {
+    console.log("Leeks for " + data.farmer.login);
+    console.log('----------------------------')
+    console.log("          Name\tLevel\tTalent\tCapital");
+    Object.keys(data.farmer.leeks).forEach(function(key) {
+        value = data.farmer.leeks[key]
+        console.log(sprintf("%15s", value.name) + "\t" + value.level + "\t" + value.talent + "\t" + value.capital);
+    })
+}
 
-    function listAis(data) {
-        console.log("Ais for " + data.farmer.login);
-        console.log('----------------------------')
+function listAis(data) {
+    console.log("Ais for " + data.farmer.login);
+    console.log('----------------------------')
 
-        data.farmer.ais.forEach(function(value) {
-            console.log(value.name);
-        })
-    }
-    // Commands
-    ////////////////////////////////////////////////////////////////
+    data.farmer.ais.forEach(function(value) {
+        console.log(value.name);
+    })
+}
+// Commands
+////////////////////////////////////////////////////////////////
 
 
-    ////////////////////////////////////////////////////////////////
-    // END Commands
-    ////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////
+// END Commands
+////////////////////////////////////////////////////////////////
