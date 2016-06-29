@@ -43,36 +43,3 @@ require('yargs')
     })
     .help('help')
     .argv
-
-
-
-
-/* Programme */
-
-////////////////////////////////////////////////////////////////
-
-function listLeeks(data) {
-    console.log("Leeks for " + data.farmer.login);
-    console.log('----------------------------')
-    console.log("          Name\tLevel\tTalent\tCapital");
-    Object.keys(data.farmer.leeks).forEach(function(key) {
-        value = data.farmer.leeks[key]
-        console.log(sprintf("%15s", value.name) + "\t" + value.level + "\t" + value.talent + "\t" + value.capital);
-    })
-}
-
-function listAis(data) {
-    console.log("Ais for " + data.farmer.login);
-    console.log('----------------------------')
-
-    data.farmer.ais.forEach(function(value) {
-        console.log(value.name);
-    })
-}
-// Commands
-////////////////////////////////////////////////////////////////
-
-
-////////////////////////////////////////////////////////////////
-// END Commands
-////////////////////////////////////////////////////////////////
