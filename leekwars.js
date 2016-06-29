@@ -1,3 +1,5 @@
+#!/usr/bin/nodejs
+
 /*
 @project   LeekWarsBuilder
 @author    Nathan Lopez
