@@ -28,6 +28,15 @@ require('yargs')
             }, function(argv){
         commands.garden_start_farmer_fight(argv);
     })
+    .command('garden-team <name>', 'Look for a team garden fight for a composition', {
+                auto: {
+                alias: 'a',
+                describe: 'Automatically choose oponent',
+                }
+            },
+        function(argv){
+            commands.garden_start_team_fight(argv);
+        })
     .command('list <type>', 'List items', {}, function (argv) {
         switch (argv.type) {
             case "leeks":
