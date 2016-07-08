@@ -20,8 +20,13 @@ require('yargs')
         function(argv){
             commands.garden_start_solo_fight(argv);
         })
-    .command('garden-farmer', 'Look for a solo garden fight for a farmer', {}, function(argv){
-        commands.garden_start_farmer_fight();
+    .command('garden-farmer', 'Look for a solo garden fight for a farmer', {
+                auto: {
+                alias: 'a',
+                describe: 'Automatically choose oponent',
+                }
+            }, function(argv){
+        commands.garden_start_farmer_fight(argv);
     })
     .command('list <type>', 'List items', {}, function (argv) {
         switch (argv.type) {
