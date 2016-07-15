@@ -15,6 +15,10 @@ require('yargs')
                 auto: {
                 alias: 'a',
                 describe: 'Automatically choose oponent',
+                },
+                number: {
+                alias: 'n',
+                describe: 'Number of fights',
                 }
             },
         function(argv){
@@ -24,6 +28,10 @@ require('yargs')
                 auto: {
                 alias: 'a',
                 describe: 'Automatically choose oponent',
+                },
+                number: {
+                alias: 'n',
+                describe: 'Number of fights',
                 }
             }, function(argv){
         commands.garden_start_farmer_fight(argv);
@@ -32,6 +40,10 @@ require('yargs')
                 auto: {
                 alias: 'a',
                 describe: 'Automatically choose oponent',
+                },
+                number: {
+                alias: 'n',
+                describe: 'Number of fights',
                 }
             },
         function(argv){
