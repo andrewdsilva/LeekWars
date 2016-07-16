@@ -70,5 +70,8 @@ require('yargs')
             console.log('Type must be (leeks|ais)')
         }
     })
+    .command('set-ai <leek> <ai>', 'Set ai', {}, function (argv) {
+        commands.set_ai(argv);
+    })
     .help('help')
     .argv
