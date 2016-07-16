@@ -73,5 +73,13 @@ require('yargs')
     .command('set-ai <leek> <ai>', 'Set ai', {}, function (argv) {
         commands.set_ai(argv);
     })
+    .command('ab-test <leek> <target> <ai1> <ai2>', 'Set ai',  {
+                number: {
+                alias: 'n',
+                describe: 'Number of fights',
+                }
+            }, function (argv) {
+        commands.ab_test(argv);
+    })
     .help('help')
     .argv
