@@ -49,6 +49,15 @@ require('yargs')
         function(argv){
             commands.garden_start_team_fight(argv);
         })
+    .command('garden-solo-challange <leek1> <leek2>', 'Start solo garden challange for a leek', {
+                number: {
+                alias: 'n',
+                describe: 'Number of fights',
+                }
+            },
+        function(argv){
+            commands.garden_start_solo_challange(argv);
+        })
     .command('list <type>', 'List items', {}, function (argv) {
         switch (argv.type) {
             case "leeks":
